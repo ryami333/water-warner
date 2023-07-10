@@ -39,7 +39,7 @@
     "electron-icon-builder": "^2.0.1",
     "esbuild": "^0.17.19",
     "eslint": "^8.41.0",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.0.1",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"
   },
