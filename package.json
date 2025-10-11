@@ -37,7 +37,7 @@
     "concurrently": "^8.2.2",
     "electron": "^38.2.2",
     "electron-icon-builder": "^2.0.1",
-    "esbuild": "^0.18.20",
+    "esbuild": "^0.25.10",
     "eslint": "^9.37.0",
     "globals": "^16.4.0",
     "nodemon": "^3.1.10",
