@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A minimal Electron application written with Typescript",
   "engines": {
-    "node": "^18.16.0"
+    "node": "^22.20.0"
   },
   "scripts": {
     "build": "esbuild --platform=node --bundle --sourcemap --minify --external:electron --outfile=dist/main.js --define:process.env.commit=\\\"$(git rev-parse --short HEAD)\\\" src/main.ts",
