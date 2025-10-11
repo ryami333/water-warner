@@ -9,6 +9,12 @@ const config = {
   },
   makers: [
     {
+      name: "@electron-forge/maker-pkg",
+      config: {
+        platforms: ["mas"],
+      },
+    },
+    {
       name: "@electron-forge/maker-zip",
       platforms: ["darwin"],
     },

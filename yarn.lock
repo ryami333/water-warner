@@ -108,6 +108,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@electron-forge/maker-pkg@npm:^7.10.2":
+  version: 7.10.2
+  resolution: "@electron-forge/maker-pkg@npm:7.10.2"
+  dependencies:
+    "@electron-forge/maker-base": "npm:7.10.2"
+    "@electron-forge/shared-types": "npm:7.10.2"
+    "@electron/osx-sign": "npm:^1.0.5"
+  checksum: 10c0/9def65cabdbb5dc38b05b6a7b67907e5ea14c15a7c20fc50f7ec5bdc15b61bc50e78b960df2e43ead1c0aa1f0abc98f5e272ece3d26e2d2e77db84f1dd295659
+  languageName: node
+  linkType: hard
+
 "@electron-forge/maker-zip@npm:^7.10.2":
   version: 7.10.2
   resolution: "@electron-forge/maker-zip@npm:7.10.2"
@@ -7391,6 +7402,7 @@ __metadata:
   resolution: "water-warner@workspace:."
   dependencies:
     "@electron-forge/cli": "npm:^7.10.2"
+    "@electron-forge/maker-pkg": "npm:^7.10.2"
     "@electron-forge/maker-zip": "npm:^7.10.2"
     "@types/ms": "npm:^2.1.0"
     "@typescript-eslint/eslint-plugin": "npm:^8.46.0"
