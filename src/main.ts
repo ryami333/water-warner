@@ -77,12 +77,12 @@ app
 
       const daysSinceLastWatered = differenceInCalendarDays(
         new Date(),
-        db.lastWatered
+        db.lastWatered,
       );
       tray.setImage(
         daysSinceLastWatered > db.warningThresholdDays
           ? warningIcon
-          : seedlingIcon
+          : seedlingIcon,
       );
 
       tray.setContextMenu(
@@ -92,7 +92,7 @@ app
               daysSinceLastWatered === 0
                 ? "today"
                 : `${printDate(
-                    db.lastWatered
+                    db.lastWatered,
                   )} (${daysSinceLastWatered} days ago)`
             }`,
             type: "normal",
@@ -120,7 +120,7 @@ app
                     db.lastWatered = date;
                   },
                 });
-              })
+              }),
             ),
           }),
           new MenuItem({
@@ -155,7 +155,7 @@ app
                           db.warningThresholdDays = days;
                         },
                       });
-                    })
+                    }),
                 ),
               }),
             ]),
@@ -173,7 +173,7 @@ app
             enabled: false,
             label: `Version: ${process.env.commit}`,
           }),
-        ])
+        ]),
       );
     };
 
