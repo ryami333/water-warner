@@ -49,22 +49,5 @@
     "ms": "^2.1.3",
     "zod": "^4.1.12"
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "name": "Water Warner",
-        "executableName": "Water Warner",
-        "icon": "./icons/icon"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        }
-      ]
-    }
-  },
   "packageManager": "yarn@4.10.3"
 }
