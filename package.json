@@ -34,7 +34,7 @@
     "@electron-forge/maker-zip": "^7.10.2",
     "@eslint/js": "^10.0.1",
     "@types/ms": "^2.1.0",
-    "@types/node": "24",
+    "@types/node": "24.13.2",
     "concurrently": "^8.2.2",
     "electron": "^42.4.1",
     "electron-icon-builder": "^2.0.1",
@@ -43,7 +43,7 @@
     "globals": "^17.7.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.8.4",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.0"
   },
   "dependencies": {
