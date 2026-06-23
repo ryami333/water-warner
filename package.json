@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A minimal Electron application written with Typescript",
   "engines": {
-    "node": "^22.20.0"
+    "node": "^24.17.0"
   },
   "scripts": {
     "build": "esbuild --platform=node --bundle --sourcemap --minify --external:electron --outfile=dist/main.js --define:process.env.commit=\\\"$(git rev-parse --short HEAD)\\\" src/main.ts",
@@ -33,10 +33,11 @@
     "@electron-forge/maker-pkg": "^7.10.2",
     "@electron-forge/maker-zip": "^7.10.2",
     "@types/ms": "^2.1.0",
+    "@types/node": "24",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
     "concurrently": "^8.2.2",
-    "electron": "^38.2.2",
+    "electron": "^42.4.1",
     "electron-icon-builder": "^2.0.1",
     "esbuild": "^0.25.10",
     "eslint": "^9.37.0",

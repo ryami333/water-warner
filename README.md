@@ -32,7 +32,7 @@ Minimal macOS menu bar app to remind you to water your plants. It lives entirely
 
 ### Requirements
 
-- **Node.js**: ^22.20.0
+- **Node.js**: ^24.17.0
 - **Yarn**: 4.x (this repo uses Corepack-managed Yarn; see below)
 - **OS**: macOS is supported and packaged. Other platforms are untested.
 
