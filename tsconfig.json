@@ -2,10 +2,11 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "bundler",
+    "target": "es2023",
     "noImplicitAny": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": ["es2022"],
+    "lib": ["es2023"],
     "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
