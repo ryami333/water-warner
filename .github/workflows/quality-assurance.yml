@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         script:
-          ["yarn package", "yarn lint", "yarn tsc", "yarn prettier . --check"]
+          ["yarn build", "yarn lint", "yarn tsc", "yarn prettier . --check"]
       # Default behaviour is "true" - which cancels all queued or in-progress jobs when one fails, which we don't want.
       fail-fast: false
     runs-on: ubuntu-latest

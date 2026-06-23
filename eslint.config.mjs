@@ -5,7 +5,7 @@ import globals from "globals";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-  globalIgnores(["dist/", "out/"]),
+  globalIgnores(["dist/", "out/", ".vite/"]),
   eslintJs.configs.recommended,
   tseslint.configs.recommended,
   {

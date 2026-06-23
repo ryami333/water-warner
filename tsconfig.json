@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "noImplicitAny": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "es2022"],
     "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
-    "types": ["node"]
+    "types": ["vite/client", "node"]
   },
   "include": ["src/**/*"]
 }
