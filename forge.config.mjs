@@ -62,18 +62,9 @@ const config = {
             entry: "src/main.ts",
             config: "vite.main.config.ts",
           },
-          {
-            entry: "src/preload.ts",
-            config: "vite.preload.config.ts",
-            target: "preload",
-          },
         ],
-        renderer: [
-          {
-            name: "main_window",
-            config: "vite.renderer.config.ts",
-          },
-        ],
+        // Tray-only app: no BrowserWindow, so there is no renderer to build.
+        renderer: [],
       },
     },
   ],
