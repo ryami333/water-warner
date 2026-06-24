@@ -18,6 +18,8 @@ Water Warner is a macOS menu-bar-only Electron app (TypeScript) that reminds you
 
 There is **no test suite** and no typecheck script; `tsconfig.json` is `noEmit` (Vite does the transpilation). Use `npx tsc --noEmit` if you need a type check.
 
+Always format changed files with `yarn prettier --write` before committing.
+
 Requires Node `^24.17.0` and Corepack-managed Yarn 4.x (`corepack enable`).
 
 ## Architecture
