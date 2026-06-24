@@ -20,7 +20,12 @@ const config = {
     publish: false,
   },
   hooks: {
-    "before:init": ["yarn prettier . --check", "yarn tsc", "yarn eslint ."],
+    "before:init": [
+      "yarn install --frozen-lockfile",
+      "yarn prettier . --check",
+      "yarn tsc",
+      "yarn eslint .",
+    ],
     "after:bump": "rm -rf out && yarn make",
   },
 };
