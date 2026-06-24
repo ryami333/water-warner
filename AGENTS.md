@@ -12,7 +12,7 @@ Water Warner is a macOS menu-bar-only Electron app (TypeScript) that reminds you
 - `yarn lint` — ESLint over the repo.
 - `yarn build` — `SKIP_NOTARIZE=true electron-forge package`; unsigned local build / CI quality check.
 - `yarn package` — full `electron-forge package` (signs + notarizes unless `SKIP_NOTARIZE=true`).
-- `yarn make` — produce distributables (macOS `zip` + `mas` pkg).
+- `yarn make` — produce distributables (macOS `zip`).
 - `yarn build:icons` — regenerate `icons/` from `seedling.png` (run automatically by `build`/`package`/`make`).
 - `yarn release` — `release-it` (uses `gh auth token` for `GITHUB_TOKEN`).
 

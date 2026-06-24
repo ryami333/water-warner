@@ -65,11 +65,11 @@ This concurrently watches and rebuilds the main process with esbuild and starts 
 - **Start (expects built files)**: `yarn start`
 - **Generate icons from seed image**: `yarn build:icons`
 - **Package app (unzipped app bundle in `out/`)**: `yarn package`
-- **Make distributables (e.g., macOS zip / MAS)**: `yarn make`
+- **Make distributables (macOS zip)**: `yarn make`
 
 Notes:
 
-- Packaging/making uses Electron Forge. macOS zip and MAS targets are configured. Code signing/notarization is not configured by default.
+- Packaging/making uses Electron Forge. A macOS zip target is configured. Code signing/notarization is not configured by default.
 - `yarn package` runs `yarn build` and `yarn build:icons` automatically.
 
 ### Data and privacy
