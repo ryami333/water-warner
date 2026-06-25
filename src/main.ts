@@ -123,8 +123,9 @@ app
             submenu: Menu.buildFromTemplate(
               last30Days.map((date) => {
                 return new MenuItem({
-                  type: "normal",
+                  type: "radio",
                   label: printDate(date),
+                  checked: date.equals(lastWateredPlainDate),
                   click: () => {
                     db.lastWatered = date.toString();
                   },
