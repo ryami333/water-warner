@@ -4,7 +4,7 @@ import { updateElectronApp } from "update-electron-app";
 import { z } from "zod";
 import { resolve } from "path";
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from "fs";
-import { addDays, differenceInCalendarDays } from "date-fns";
+import { Temporal } from "temporal-polyfill";
 import ms from "ms";
 import { printDate } from "./helpers/printDate";
 import { seedlingIcon } from "./helpers/seedlingIcon";
@@ -36,7 +36,7 @@ const APP_DATA_DIRECTORY = resolve(app.getPath("appData"), "water-warner");
 const DB_PATH = resolve(APP_DATA_DIRECTORY, "db.json");
 
 interface DB {
-  lastWatered: Date;
+  lastWatered: string;
   warningThresholdDays: number;
 }
 
@@ -50,11 +50,11 @@ if (!existsSync(DB_PATH)) {
 
 const initialState: DB = z
   .object({
-    lastWatered: z.iso.datetime().transform((str) => new Date(str)),
+    lastWatered: z.iso.date(),
     warningThresholdDays: z.number().int(),
   })
   .catch({
-    lastWatered: new Date(),
+    lastWatered: Temporal.Now.plainDateISO().toString(),
     warningThresholdDays: 10,
   })
   .parse(safeJsonParse(readFileSync(DB_PATH, "utf8")));
@@ -78,17 +78,16 @@ app
     const tray = new Tray(seedlingIcon);
 
     const build = () => {
-      const today = new Date();
+      const today = Temporal.Now.plainDateISO();
       const last30Days = Array(30)
         .fill(undefined)
         .map((_, index) => {
-          return addDays(today, -1 * index);
+          return today.subtract({ days: index });
         });
 
-      const daysSinceLastWatered = differenceInCalendarDays(
-        new Date(),
-        db.lastWatered,
-      );
+      const lastWateredPlainDate = Temporal.PlainDate.from(db.lastWatered);
+
+      const daysSinceLastWatered = lastWateredPlainDate.until(today).days;
       tray.setImage(
         daysSinceLastWatered > db.warningThresholdDays
           ? warningIcon
@@ -102,7 +101,7 @@ app
               daysSinceLastWatered === 0
                 ? "today"
                 : `${printDate(
-                    db.lastWatered,
+                    lastWateredPlainDate,
                   )} (${daysSinceLastWatered} days ago)`
             }`,
             type: "normal",
@@ -115,7 +114,7 @@ app
             label: "I just watered my plants",
             type: "normal",
             click: () => {
-              db.lastWatered = new Date();
+              db.lastWatered = Temporal.Now.plainDateISO().toString();
             },
           }),
           new MenuItem({
@@ -127,7 +126,7 @@ app
                   type: "normal",
                   label: printDate(date),
                   click: () => {
-                    db.lastWatered = date;
+                    db.lastWatered = date.toString();
                   },
                 });
               }),
