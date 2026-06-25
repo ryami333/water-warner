@@ -10,9 +10,9 @@ Water Warner is a macOS menu-bar-only Electron app (TypeScript) that reminds you
 
 - `yarn dev` / `yarn start` — run the app via `electron-forge start` (Vite-backed, auto-restart).
 - `yarn lint` — ESLint over the repo.
-- `yarn build` — `SKIP_NOTARIZE=true electron-forge package`; unsigned local build / CI quality check.
-- `yarn package` — full `electron-forge package` (signs + notarizes unless `SKIP_NOTARIZE=true`).
-- `yarn make` — produce distributables (macOS `zip`).
+- `yarn build` — `electron-forge package`; unsigned local build / CI quality check (signing is opt-in, off by default).
+- `yarn package` — `electron-forge package`; unsigned unless `SIGN=true` is set, which enables signing + notarization.
+- `yarn make` — produce distributables (macOS `zip`); runs with `SIGN=true`, so it signs + notarizes.
 - `yarn build:icons` — regenerate `icons/` from `seedling.png` (run automatically by `build`/`package`/`make`).
 - `yarn release` — `release-it` (uses `gh auth token` for `GITHUB_TOKEN`).
 
@@ -35,7 +35,7 @@ Almost everything lives in [src/main.ts](src/main.ts) — the Electron main proc
 ## Build pipeline
 
 - [forge.config.mjs](forge.config.mjs) drives packaging via `@electron-forge/plugin-vite`. `renderer: []` is intentional (no BrowserWindow).
-- **Notarization is env-gated.** `SKIP_NOTARIZE=true` disables both code signing and the `@t3-oss/env-core` validation of `APPLE_ID` / `APPLE_ID_PASSWORD` / `APPLE_TEAM_ID`, so CI/local builds need no Apple secrets. Real `make`/`package` requires those vars (via `.env` / `dotenv`).
+- **Signing/notarization is opt-in via `SIGN`.** Setting `SIGN=true` turns on code signing and notarization, which read `APPLE_ID` / `APPLE_ID_PASSWORD` / `APPLE_TEAM_ID` (via `.env` / `dotenv`). When `SIGN` is unset (the default), packaging skips signing entirely, so CI/local builds need no Apple secrets. `forge.config.mjs` validates `SIGN` with `@t3-oss/env-core` and only configures `osxSign` / `osxNotarize` when it's true.
 - [vite.main.config.ts](vite.main.config.ts) bakes the short git commit into `process.env.commit` at build time (falls back to `"local"`), surfaced in the tray's Version menu item.
 
 Note: the README describes esbuild, but the actual build pipeline is Vite via electron-forge.
