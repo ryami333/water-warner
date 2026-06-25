@@ -37,10 +37,7 @@ if (!existsSync(DB_PATH)) {
 
 const initialState: DB = z
   .object({
-    lastWatered: z
-      .string()
-      .datetime()
-      .transform((str) => new Date(str)),
+    lastWatered: z.iso.datetime().transform((str) => new Date(str)),
     warningThresholdDays: z.number().int(),
   })
   .catch({
