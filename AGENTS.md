@@ -39,3 +39,9 @@ Almost everything lives in [src/main.ts](src/main.ts) — the Electron main proc
 - [vite.main.config.ts](vite.main.config.ts) bakes the short git commit into `process.env.commit` at build time (falls back to `"local"`), surfaced in the tray's Version menu item.
 
 Note: the README describes esbuild, but the actual build pipeline is Vite via electron-forge.
+
+## Auto-updates
+
+[src/main.ts](src/main.ts) calls `updateElectronApp()` (from `update-electron-app`) at startup, which polls the free [update.electronjs.org](https://update.electronjs.org) feed hourly and applies new GitHub releases via Squirrel.Mac. Requirements that are already met: the repo is public, releases are published as GitHub Releases (`release-it`), and the macOS distributable is a `maker-zip` (Squirrel.Mac needs the `.zip`).
+
+The catch: **Squirrel.Mac only updates code-signed apps.** Auto-update therefore only works for releases built with `SIGN=true` (i.e. `yarn make`, which `release-it` runs via its `after:bump` hook). For unsigned builds the updater silently does nothing, and it is a no-op in development (`app.isPackaged === false`). When testing, expect the "no update available" / signing-related log lines unless you run a signed, packaged build that is older than the latest release.

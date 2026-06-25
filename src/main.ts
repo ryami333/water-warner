@@ -1,5 +1,6 @@
 import { app, Menu } from "electron";
 import { MenuItem, Tray } from "electron/main";
+import { updateElectronApp } from "update-electron-app";
 import { z } from "zod";
 import { resolve } from "path";
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from "fs";
@@ -9,6 +10,18 @@ import { printDate } from "./helpers/printDate";
 import { seedlingIcon } from "./helpers/seedlingIcon";
 import { warningIcon } from "./helpers/warningIcon";
 import { safeJsonParse } from "./helpers/safeJsonParse";
+
+/**
+ * Auto-update via GitHub releases, using the free update.electronjs.org feed
+ * (Squirrel.Mac under the hood). This is a no-op in development and silently
+ * does nothing for unsigned builds — Squirrel.Mac only updates signed apps, so
+ * updates require a `SIGN=true` release. Checks hourly and prompts the user to
+ * restart once a new version has been downloaded.
+ */
+updateElectronApp({
+  repo: "ryami333/water-warner",
+  updateInterval: "1 hour",
+});
 
 /**
  * Performance improvement:
