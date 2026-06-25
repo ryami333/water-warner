@@ -21,7 +21,6 @@ const config = {
             APPLE_TEAM_ID: z.string().nonempty(),
           },
           runtimeEnv: process.env,
-          skipValidation: true,
         });
 
         runConfig.packagerConfig.osxSign = {};
