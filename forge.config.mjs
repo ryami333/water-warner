@@ -2,44 +2,42 @@ import "dotenv/config";
 import { createEnv } from "@t3-oss/env-core";
 import z from "zod";
 
-/**
- * Set `SKIP_NOTARIZE=true` to build an unsigned, un-notarized app without Apple
- * credentials — used by the `build` script as a CI quality-assurance check.
- * Skipping also disables the env validation below, so CI needs no secrets.
- */
-const skipNotarize = process.env.SKIP_NOTARIZE === "true";
-
-export const env = createEnv({
+const env = createEnv({
   server: {
-    APPLE_ID: z.email(),
-    APPLE_ID_PASSWORD: z.string().nonempty(),
-    APPLE_TEAM_ID: z.string().nonempty(),
+    SIGN: z.stringbool().optional().default(false),
   },
-
-  /**
-   * What object holds the environment variables at runtime. This is usually
-   * `process.env` or `import.meta.env`.
-   */
   runtimeEnv: process.env,
-  skipValidation: skipNotarize,
 });
 
 /** @type {import('@electron-forge/shared-types').ForgeConfig} */
 const config = {
-  packagerConfig: {
-    name: "Water Warner",
-    executableName: "Water Warner",
-    icon: "./icons/icon",
-    ...(skipNotarize
-      ? {}
-      : {
-          osxSign: {},
-          osxNotarize: {
-            appleId: env.APPLE_ID,
-            appleIdPassword: env.APPLE_ID_PASSWORD,
-            teamId: env.APPLE_TEAM_ID,
+  hooks: {
+    resolveForgeConfig: (runConfig) => {
+      if (env.SIGN === "true") {
+        const notarizeEnv = createEnv({
+          server: {
+            APPLE_ID: z.email(),
+            APPLE_ID_PASSWORD: z.string().nonempty(),
+            APPLE_TEAM_ID: z.string().nonempty(),
           },
-        }),
+          runtimeEnv: process.env,
+          skipValidation: true,
+        });
+
+        runConfig.packagerConfig.osxSign = {};
+        runConfig.packagerConfig.osxNotarize = {
+          appleId: notarizeEnv.APPLE_ID,
+          appleIdPassword: notarizeEnv.APPLE_ID_PASSWORD,
+          teamId: notarizeEnv.APPLE_TEAM_ID,
+        };
+      }
+      return runConfig;
+    },
+  },
+  packagerConfig: {
+    name: "mtask",
+    executableName: "mtask",
+    icon: "./icons/icon",
   },
   makers: [
     {
@@ -55,6 +53,11 @@ const config = {
           {
             entry: "src/main.ts",
             config: "vite.main.config.ts",
+          },
+          {
+            entry: "src/preload.ts",
+            config: "vite.preload.config.ts",
+            target: "preload",
           },
         ],
         // Tray-only app: no BrowserWindow, so there is no renderer to build.

@@ -12,7 +12,7 @@
     "build:icons": "electron-icon-builder --flatten --input=./seedling.png --output=.",
     "package": "yarn build:icons && electron-forge package",
     "build": "yarn build:icons && SKIP_NOTARIZE=true electron-forge package",
-    "make": "yarn build:icons && CI=true electron-forge make",
+    "make": "yarn build:icons && SIGN=true electron-forge make",
     "release": "GITHUB_TOKEN=$(gh auth token) yarn release-it"
   },
   "main": ".vite/build/main.js",
