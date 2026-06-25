@@ -34,8 +34,8 @@ const config = {
     },
   },
   packagerConfig: {
-    name: "mtask",
-    executableName: "mtask",
+    name: "water-warner",
+    executableName: "water-warner",
     icon: "./icons/icon",
   },
   makers: [
