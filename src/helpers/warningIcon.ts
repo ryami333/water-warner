@@ -1,10 +1,7 @@
 import { nativeImage } from "electron/common";
-import { app } from "electron/main";
-import { resolve } from "path";
+import notification from "../../seedling--notification.png?inline";
 
-export const warningIcon = nativeImage
-  .createFromPath(resolve(app.getAppPath(), "seedling--notification.png"))
-  .resize({
-    height: 16,
-    width: 16,
-  });
+export const warningIcon = nativeImage.createFromDataURL(notification).resize({
+  height: 16,
+  width: 16,
+});

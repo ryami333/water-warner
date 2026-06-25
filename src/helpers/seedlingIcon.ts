@@ -1,10 +1,7 @@
 import { nativeImage } from "electron/common";
-import { app } from "electron/main";
-import { resolve } from "path";
+import seedling from "../../seedling.png?inline";
 
-export const seedlingIcon = nativeImage
-  .createFromPath(resolve(app.getAppPath(), "seedling.png"))
-  .resize({
-    height: 16,
-    width: 16,
-  });
+export const seedlingIcon = nativeImage.createFromDataURL(seedling).resize({
+  height: 16,
+  width: 16,
+});
