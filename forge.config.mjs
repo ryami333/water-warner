@@ -13,7 +13,7 @@ const env = createEnv({
 const config = {
   hooks: {
     resolveForgeConfig: (runConfig) => {
-      if (env.SIGN === "true") {
+      if (env.SIGN) {
         const notarizeEnv = createEnv({
           server: {
             APPLE_ID: z.email(),
