@@ -1,4 +1,4 @@
-import { app, Menu } from "electron";
+import { app, Menu, Notification } from "electron";
 import { MenuItem, Tray } from "electron/main";
 import { updateElectronApp } from "update-electron-app";
 import { z } from "zod";
@@ -38,6 +38,11 @@ const DB_PATH = resolve(APP_DATA_DIRECTORY, "db.json");
 interface DB {
   lastWatered: string;
   warningThresholdDays: number;
+  /**
+   * ISO date of the last day we sent an "overdue" notification, used to dedupe
+   * so we notify at most once per day rather than on every 2h interval tick.
+   */
+  lastNotified?: string;
 }
 
 if (!existsSync(APP_DATA_DIRECTORY)) {
@@ -52,6 +57,7 @@ const initialState: DB = z
   .object({
     lastWatered: z.iso.date(),
     warningThresholdDays: z.number().int(),
+    lastNotified: z.iso.date().optional(),
   })
   .catch({
     lastWatered: Temporal.Now.plainDateISO().toString(),
@@ -187,9 +193,42 @@ app
       );
     };
 
-    build();
+    /**
+     * Send a system notification if the plants are overdue for watering.
+     * Deduped to once per day via `db.lastNotified` so that, while overdue, the
+     * user isn't notified on every 2h interval tick.
+     */
+    const notifyIfOverdue = () => {
+      const today = Temporal.Now.plainDateISO();
+      const lastWateredPlainDate = Temporal.PlainDate.from(db.lastWatered);
+      const daysSinceLastWatered = lastWateredPlainDate.until(today).days;
 
-    setInterval(() => build(), ms("2h"));
+      if (daysSinceLastWatered <= db.warningThresholdDays) {
+        return;
+      }
+
+      const todayString = today.toString();
+      if (db.lastNotified === todayString) {
+        return;
+      }
+
+      if (Notification.isSupported()) {
+        new Notification({
+          title: "Your plants need watering 🌱",
+          body: `It's been ${daysSinceLastWatered} days since you last watered your plants.`,
+        }).show();
+      }
+
+      db.lastNotified = todayString;
+    };
+
+    build();
+    notifyIfOverdue();
+
+    setInterval(() => {
+      build();
+      notifyIfOverdue();
+    }, ms("2h"));
   })
   .catch(console.error);
 
