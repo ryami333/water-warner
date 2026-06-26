@@ -2,8 +2,6 @@
 
 **Stop killing your houseplants. A tiny macOS menu bar app that gently nags you to water them.**
 
-![Seedling](./seedling.png) ![Warning](./warning.png)
-
 You meant to water the fern. You really did. But it's been... how long, exactly? Water Warner keeps the answer right in your menu bar, so you never have to guess — and never have to feel guilty again.
 
 ---
