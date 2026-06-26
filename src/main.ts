@@ -35,16 +35,6 @@ Menu.setApplicationMenu(null);
 const APP_DATA_DIRECTORY = resolve(app.getPath("appData"), "water-warner");
 const DB_PATH = resolve(APP_DATA_DIRECTORY, "db.json");
 
-interface DB {
-  lastWatered: string;
-  warningThresholdDays: number;
-  /**
-   * ISO date of the last day we sent an "overdue" notification, used to dedupe
-   * so we notify at most once per day rather than on every 2h interval tick.
-   */
-  lastNotified?: string;
-}
-
 if (!existsSync(APP_DATA_DIRECTORY)) {
   mkdirSync(APP_DATA_DIRECTORY, { recursive: true });
 }
@@ -53,12 +43,17 @@ if (!existsSync(DB_PATH)) {
   writeFileSync(DB_PATH, "");
 }
 
-const initialState: DB = z
-  .object({
-    lastWatered: z.iso.date(),
-    warningThresholdDays: z.number().int(),
-    lastNotified: z.iso.date().optional(),
-  })
+const dbSchema = z.object({
+  lastWatered: z.iso.date(),
+  warningThresholdDays: z.number().int(),
+  /**
+   * ISO date of the last day we sent an "overdue" notification, used to dedupe
+   * so we notify at most once per day rather than on every 2h interval tick.
+   */
+  lastNotified: z.iso.date().optional(),
+});
+
+const initialState = dbSchema
   .catch({
     lastWatered: Temporal.Now.plainDateISO().toString(),
     warningThresholdDays: 10,
