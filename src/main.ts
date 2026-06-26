@@ -182,7 +182,7 @@ app
           new MenuItem({
             type: "normal",
             enabled: false,
-            label: `Version: ${process.env.commit}`,
+            label: `Version: ${app.isPackaged ? app.getVersion() : "dev"}`,
           }),
         ]),
       );
