@@ -1,6 +1,6 @@
 {
   "name": "water-warner",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "A minimal Electron application written with Typescript",
   "engines": {
     "node": "^24.18.0"
