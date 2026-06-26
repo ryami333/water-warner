@@ -1,100 +1,47 @@
-## Water Warner
+# 🌱 Water Warner
 
-Minimal macOS menu bar app to remind you to water your plants. It lives entirely in the menu bar, shows how many days it’s been since you last watered, and switches to a warning icon when you pass your chosen threshold.
+**Stop killing your houseplants. A tiny macOS menu bar app that gently nags you to water them.**
 
 ![Seedling](./seedling.png) ![Warning](./warning.png)
 
-### Features
+You meant to water the fern. You really did. But it's been... how long, exactly? Water Warner keeps the answer right in your menu bar, so you never have to guess — and never have to feel guilty again.
 
-- **Menu bar only**: Dock icon hidden; quick access from the tray.
-- **One click to log watering**: “I just watered my plants”.
-- **Backdate easily**: Pick any of the last 30 days.
-- **Warning threshold**: Choose 2–30 days; icon turns to a warning when exceeded.
-- **Launch at login**: Enable from Settings.
-- **Auto-refresh**: Tray icon/menu rebuild every 2 hours.
-- **Local-only storage**: Data is stored as JSON on disk; no network.
-- **Version in menu**: Shows the current commit or “local”.
+---
 
-### How it works
+## Why you'll like it
 
-- On first run, the app creates a data folder and `db.json` at:
-  - macOS: `~/Library/Application Support/water-warner/db.json`
-- Data format:
+- **🪴 It lives in your menu bar.** No windows, no dock icon, no clutter. Just a friendly seedling watching over your plants.
+- **👀 The day counter is always visible.** Click the icon and see exactly how many days it's been since your last watering.
+- **🚨 It turns red when you slack.** Set your own threshold (anywhere from 2 to 30 days). Cross it, and the cheerful seedling becomes an unmissable warning icon.
+- **👆 Watering takes one click.** Just watered? Click _"I just watered my plants."_ Done.
+- **📅 Forgot to log it?** Backdate to any of the last 30 days — no harm done.
+- **🔒 Completely private.** Everything is stored locally on your Mac. No accounts, no cloud, no network, no tracking. Ever.
+- **🚀 Starts with your Mac.** Flip on _Launch at login_ and forget it's even there — until it needs you.
+- **🔄 Always up to date.** Auto-updates itself in the background, so you're never stuck on an old version.
 
-```json
-{
-  "lastWatered": "2025-01-01T12:00:00.000Z",
-  "warningThresholdDays": 10
-}
-```
+## Download
 
-- The tray icon is a seedling while \(days since lastWatered\) \<= \(warningThresholdDays\); otherwise a warning icon is shown.
+Water Warner is **free** and runs on **macOS (Apple Silicon)**.
 
-### Requirements
+1. Head to the [**Releases page**](https://github.com/ryami333/water-warner/releases/latest).
+2. Download the latest `water-warner-darwin-arm64-*.zip`.
+3. Unzip it and drag **Water Warner.app** into your **Applications** folder.
+4. Open it. Look up at your menu bar — there's your new seedling. 🌱
 
-- **Node.js**: ^24.17.0
-- **Yarn**: 4.x (this repo uses Corepack-managed Yarn; see below)
-- **OS**: macOS is supported and packaged. Other platforms are untested.
+> The app is code-signed and notarized by Apple, so it opens cleanly without Gatekeeper warnings. Once installed, it updates itself automatically whenever a new release ships.
 
-### Getting started (development)
+## How to use it
 
-1. Enable Yarn via Corepack (once per machine):
+- **Click the seedling** in the menu bar to open the menu and see the days since you last watered.
+- **Watered today?** Click _"I just watered my plants."_
+- **Watered earlier this week?** Open the _"I watered my plants on…"_ submenu and pick the day.
+- **Tune the nagging.** Under **Settings**, set your warning threshold — how many dry days you'll tolerate before the icon goes red.
+- **Set and forget.** Turn on _Launch at login_ from Settings so Water Warner is always on duty.
 
-```bash
-corepack enable
-corepack prepare yarn@4.10.3 --activate
-```
+That's the whole app. It does one thing, and it does it without getting in your way.
 
-2. Install dependencies:
+---
 
-```bash
-yarn install
-```
-
-3. Run the app in watch mode:
-
-```bash
-yarn dev
-```
-
-This concurrently watches and rebuilds the main process with esbuild and starts Electron with auto-restart. The app lives in the menu bar; right-click the tray icon to open the menu.
-
-### Useful scripts
-
-- **Build once**: `yarn build`
-- **Start (expects built files)**: `yarn start`
-- **Generate icons from seed image**: `yarn build:icons`
-- **Package app (unzipped app bundle in `out/`)**: `yarn package`
-- **Make distributables (macOS zip)**: `yarn make`
-
-Notes:
-
-- Packaging/making uses Electron Forge. A macOS zip target is configured. Code signing/notarization is not configured by default.
-- `yarn package` runs `yarn build` and `yarn build:icons` automatically.
-
-### Data and privacy
-
-- All data is stored locally in `db.json` under the app data folder.
-- To reset the app, quit it and delete `db.json`; it will be recreated on next launch.
-- The app has no network features.
-
-### Project structure
-
-- `src/main.ts`: Electron main process, tray/menu, persistence, scheduling.
-- `src/helpers/printDate.ts`: Formats dates for menu labels.
-- `src/helpers/safeJsonParse.ts`: Tolerant JSON parsing for the local DB.
-- `src/helpers/seedlingIcon.ts` and `src/helpers/warningIcon.ts`: Load and resize tray icons.
-- `src/preload.ts` and `src/renderer.ts`: Present for completeness; renderer UI is not used.
-
-### Troubleshooting
-
-- If Yarn errors mention PnP or incompatible Yarn versions, ensure Corepack is active and Yarn 4.10.3 is selected: `corepack prepare yarn@4.10.3 --activate`.
-- On first launch of a packaged build, macOS Gatekeeper may warn about unsigned apps. You may need to allow the app in System Settings or sign/notarize builds for distribution.
-
-### License
+## License
 
 [MIT](LICENSE.md)
-
-### Acknowledgements
-
-Based on the Electron Quick Start TypeScript template; rebuilt with esbuild and tailored for a tray-only workflow.
